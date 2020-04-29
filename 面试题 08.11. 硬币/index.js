@@ -2,6 +2,7 @@
  * @param {number} n
  * @return {number}
  */
+// 思路简单直接，可惜超出时间复杂度
 var waysToChange = function (n) {
     let num = 0;
     for (let a = 0; a <= n / 25; a++) {
@@ -35,9 +36,33 @@ var waysToChange = function (n) {
     }
     return num
 };
+
+// 思路二：利用递归去求出每一种情况
+var waysToChange = function (n) {
+    const unitArr =[25,10,5,1];
+    let num = 0;
+    const traverse = (cur)=>{
+        if(cur === 0){
+           return num++
+        }else if(cur < 0){ // 防止减多的情况
+            return
+        }
+        for(let i = 0,len = unitArr.length;i<len;i++){
+            traverse(cur - unitArr[i])
+        }
+    }
+    traverse(n)
+    return num % 1000000007
+}
+
+// 思路三：背包问题
+
+// unitArr 相当于每个包的体积，而总体积恒定，说明背包的体积恒定
+// 原始问题是求出最大价值
+// 我们是q
+var waysToChange = function (n) {
+    const unitArr =[25,10,5,1];
+
+
+}
 console.log(waysToChange(5));
-
-const fn = (type)=> `[object ${type.toUpperCase()}]`
-const isType = type => target => `[object ${type.replace(/^\w/,(match=>match.toUpperCase()))}]` === Object.prototype.toString.call(target)
-console.log(isType('Number')(Number(34)));
-
