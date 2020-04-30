@@ -65,4 +65,35 @@ var waysToChange = function (n) {
 
 
 }
-console.log(waysToChange(5));
+var waysToChange = function (n) {
+    const unitArr =[25,10,5,1];
+    // f[i][v] = f[i - 1][v - 0*c[i]] +f[i-1][v - c[i]] ... f[i-1][v - k*c[i]] (k = |v/c[i]|)
+    // f[i][v - c[i]] = f[i-1][v - c[i]] +...+ f[i-1][v - k*c[i]] (k = |v/c[i]|)
+    // => f[i][v] = f[i-1][v] + f[i][v - c[i]]
+
+    // 时间复杂度优化
+    // f[i][n]是由f[i-1][n]和f[i][n - c[i]] 组成的，也就是取不取第i种硬币
+    // => f[i][v] = f[i][v- c[i]]+f[i-1][v]
+    
+    // 空间复杂度优化
+
+    // 由于 v是不断往前遍历，此时f[i][v - c[i]] 是已经更新的值
+    // 而 f[i-1][v] 是还没有更新f[i][v] 的值
+    // 那么就可以优化为1维
+    // => f[v] =  f[v] + f[v - c[i]]
+    // f[0] = 1
+    // 1. 声明 dep
+    // 初始值，因为f[n]是求表示法，所以 f[0]时，可以有一种表示法，就是 不投
+    // f[1...n]因为无法确定，所以是0
+    const dep = Array(n+1).fill(0);
+    dep[0] = 1;
+
+    for(let i = 0,len = unitArr.length ;i<len;i++){
+        for(let v = unitArr[i];v<=n;v++){
+            dep[v] = dep[v] + dep[ v - unitArr[i]]       
+        }
+    }
+    return dep[n] % 1000000007
+
+}
+console.log(waysToChange(10));
