@@ -9,6 +9,7 @@ const fn = (arr)=>{
     // 存储索引
     const stacks =  new Array(arr.length);
     for(let i = 0 ; i<arr.length;i++){
+        // 第一次遇到大的值
         while(stacks.length && arr[stacks[stacks.length-1]] < arr[i]){
             const index = stacks.pop();
             resArr[index] = i - index;
@@ -18,3 +19,20 @@ const fn = (arr)=>{
     return resArr
 } 
 console.log(fn([5,3,1,2,4]));
+
+// 变例，给定一个数组，求出一个数组中对应位置的第一次遇到比它小的值，没有则返回-1
+
+const fn2 = (inputArr)=>{
+    // 1. 声明返回数组，声明存储索引的单调栈
+    const resArr = Array.from({length:inputArr.length},()=>-1);
+    const stacks = [];
+    for(let i = 0 ; i < inputArr.length; i++){
+        while(stacks.length && inputArr[stacks[stacks.length-1]] > inputArr[i]){
+            const index = stacks.pop();
+            resArr[index] = i - index;
+        }
+        stacks.push(i)
+    }
+    return resArr
+}
+console.log(fn2([5,3,1,2,4]));

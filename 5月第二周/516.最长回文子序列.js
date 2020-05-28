@@ -120,4 +120,68 @@ const getPalindDrome = (s,left,right) =>{
     }
     return res
 }
-console.log(getPalindDrome("baaaaabbab",3,4));
+// console.log(getPalindDrome("baaaaabbab",3,4));
+
+// 思路二： 动态规划
+
+// i <= j-2
+    // w[i] != w[j]
+    // dep[i][j] = max{dep[i+1][j],dep[i][j-1]}
+
+    // w[i] == w[j]
+
+    // dep[i][j] = dep[i+1][j-1]+2;
+
+// 考虑边界情况
+
+// i === j => dep[i][j] = 1 ;
+// i == j-1 => dep[i][j] = w[i] === w[j] ? 2 : 1;
+
+
+// 由于涉及到要计算i+1的值，所以采用倒序遍历
+
+var longestPalindromeSubseq  = function(s){
+    if(!s.length){
+        return 0
+    }
+ const dep = Array.from({length:s.length},()=>[]);
+    for(let i = s.length-1; i >= 0 ;i--){
+        dep[i][j] = 1;
+        for(let j = i+1 ; j < s.length; j++){
+            if( i == j-1){
+                dep[i][j] = s[i] === s[j] ? 2 :1; 
+            }else{
+                dep[i][j] = s[i] === s[j] ? dep[i+1][j-1]+2 :
+                 Math.max(dep[i+1][j],dep[i][j-1]);
+            }
+            console.log(i,j,dep[i][j]);
+
+        }
+    }    
+    return  dep[0][s.length-1]
+}
+// 犯错记录 for循环的位置出了问题
+// 关键步骤：想想清楚每一步骤其实是可以由上一步组成的
+var longestPalindromeSubseq  = function(s){
+    if(!s.length){
+        return 0
+    }
+    const dep = Array.from({length:s.length},()=>[]);
+    // i = j => dep[i][j] = 1
+    // i = j - 1 => dep[i][j] = s[i] == s[j] ?  2 : 1;
+    // i < j -1  => dep[i][j] = s[i] == s[j] ? dep[i+1][j-1] + 2 : Math.max(dep[i+1][j],dep[i][j-1])
+    for(let i = s.length-1 ; i >= 0; i-- ){
+        dep[i][i] = 1;
+        for(let j = i+1 ; j< s.length ; j++){
+            if(i == j-1){
+                dep[i][j] = s[i] === s[j] ? 2 : 1;
+            }else{
+                dep[i][j] = s[i] === s[j] ? dep[i+1][j-1]+2 : Math.max(dep[i+1][j],dep[i][j-1])
+            }
+        }
+    }  
+    console.log(dep);
+    
+    return dep[0][s.length-1]
+}
+console.log(longestPalindromeSubseq("bbbab"));

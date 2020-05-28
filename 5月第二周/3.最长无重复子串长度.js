@@ -25,7 +25,7 @@ var lengthOfLongestSubstring = function(s) {
             stacks.push(s[i])
         }else{
             maxLen = Math.max(maxLen,stacks.length);
-            // 找出索引
+            // 找出首次出现的索引
             const index  = stacks.indexOf(s[i]);
             stacks.splice(0,index+1)
             stacks.push(s[i])

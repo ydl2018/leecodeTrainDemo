@@ -159,4 +159,104 @@ var longestPalindrome = function(s) {
     }
     return s.substring(left,right+1)
 }
-console.log(longestPalindrome("babad"));
+
+
+/***
+ * 复习暴力法
+ */
+var longestPalindrome = function(s) {
+    let res_i = 0;
+    let res_j = 0;
+    const compare = function(s,i,j){
+        while(i<j){
+            if(s[i] !== s[j]){
+                return false
+            }
+            i++;
+            j--;
+        }
+        return true
+    }
+    for(let i = 0 ; i < s.length; i++){
+        for(let j = i;j<s.length;j++){
+            if(compare(s,i,j) && ((res_j - res_i) < (j - i))){
+                res_j = j;
+                res_i = i;
+            }
+        }
+    }
+    console.log(res_i,res_j);
+    
+    return s.substring(res_i,res_j+1)
+}
+/**
+ * 复习 动态规划
+ */
+var longestPalindrome = function(s){
+    if(!s.length){
+        return 0
+    }
+    // when j-i>=2
+    // dep[i][j] = dep[i+1][j-1] && s[i] === s[j]
+    // when j - i == 1
+    // dep[i][j] = s[i] && s[j]
+    // when j - i == 0
+    // dep[i][j] == true
+    const dep = Array.from({length:s.length},()=>[])
+    console.log(dep);
+    
+    let res_i,res_j;
+    res_i = res_j = 0; 
+    for(let i = s.length-1; i >= 0; i--){
+        dep[i][i] = true;
+        for(let j = i+1 ; j <s.length; j++){
+            if(s[i] === s[j]){
+                if(j -i == 1){
+                    dep[i][j] = true;
+                }else{
+                    dep[i][j] = dep[i+1][j-1];
+                }
+            }else{
+                dep[i][j] = false;
+            }
+            if(dep[i][j] && res_j - res_i < j - i){
+                res_j = j;
+                res_i = i;
+            }
+        }
+    }
+    return s.substring(res_i,res_j+1)
+}
+
+
+
+/**
+ * 复习中心扩展法
+ */
+var longestPalindrome = function(s){
+    let res_i,res_j;
+    res_i = res_j = 0; 
+const compare = function(s,i,j){
+    while(i>=0 && j<s.length && s[i] === s[j]){
+        i--;
+        j++;
+    }
+    return j - i - 1
+}
+    for(let i = 0 ; i< s.length; i++){
+        const len1 = compare(s,i,i);
+        const len2 = compare(s,i,i+1);
+        console.log(len1,len2);
+        
+        const maxLen = Math.max(len1,len2);
+        if(maxLen > res_j - res_i + 1){
+            res_i = i - Math.floor((maxLen-1)/2);
+            res_j = i + Math.floor(maxLen/2);
+        }
+    }
+    return s.substring(res_i,res_j+1);
+}
+
+console.log(longestPalindrome("abcdefggfcdefedc"));
+
+
