@@ -106,3 +106,23 @@ console.log(searchRight([5,7,7,8,8,10],8));
 console.log(searchRight([1,4,4,4,4,4],4));
 console.log(searchRight2([5,7,7,8,8,10],8));
 console.log(searchRight2([1,4,4,4,4,4],4));
+var largestRectangleArea = function(heights) {
+    const stacks = [-1]; //存储索引
+    let maxArea = 0,x,y;
+     for(let i = 0; i < heights.length; i++){
+         while(heights[stacks[stacks.length-1]] < heights[i]){
+             // 出栈
+              y = heights[stacks.pop()];
+              x = i - stacks[stacks.length-1] - 1; // 最难理解
+              maxArea = Math.max(maxArea,x*y)
+         }
+         stacks.push(i)
+     }
+     // 
+     while(stacks.length && stacks[stacks.length-1] !==-1){
+         const y =  heights[stacks.pop()];
+         maxArea = Math.max(maxArea,y * (heights.length - stacks[stacks.length-1]-1))
+     }
+     console.log(stacks);
+     return maxArea
+ } 
