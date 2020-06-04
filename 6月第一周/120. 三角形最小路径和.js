@@ -69,13 +69,22 @@ var minimumTotal = function(triangle) {
   // f[j] = f[j] + triangle[i][j]
     const dep = Array.from({length:triangle[triangle.length-1].length},()=>Infinity);
     dep[0] = 0;
-    for(let i = 0; i < col; i++){
+    for(let i = 0; i < triangle.length; i++){
       for(let j = triangle[i].length-1; j >=0; j--){
         if(j == 0){
           dep[j] = dep[j] + triangle[i][j]
         }else{
-          dep[j] = min(dep[j],dep[j-1])+ triangle[i][j]
+          dep[j] = Math.min(dep[j],dep[j-1])+ triangle[i][j]
         }
       }
     }
+    return Math.min(...dep)
   }
+  // 继续优化版，反转
+  console.log(minimumTotal([
+    [7],
+   [-5,9],
+   [6,5,2],
+   [-8,-2,-7,3],
+   [-2,6,-6,-1,4]
+ ]));
