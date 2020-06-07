@@ -43,7 +43,7 @@ var KMPsearch = function (org,tar) {
             i1++;
             j1++;
         }else{
-            j1 = next[j1]
+            j1 = next[i1]
         }
     }
     if(j1 === tar.length){
@@ -55,3 +55,32 @@ var KMPsearch = function (org,tar) {
     
 }
 console.log(KMPsearch(originStr,subStr));
+
+// kMP 解法思路 str 都有一个前缀和后缀，当不匹配时，求出前缀组成的数组与后缀组成的数组中交集最长序列
+// 将sub指针移动到以最长序列长度的索引
+
+const KMPsearchCopy = function(str,target){
+    // 建表
+    const next = [-1];
+    let str_i = 0, str_j = -1;
+    while( str_i < str.length){
+        if(next[str_j] == -1 || str[str_i] == str[str_j]){
+            str_j++;
+            str_i++;
+            next[str_i] = str_j;
+        }else{
+            str_j = next[str_j]
+        }
+    }
+
+    let i = 0,j = 0;
+    while(i < str.length){
+        if(str[i] == target[j]){
+            i++;
+            j++;
+        }else{
+            // 想不明白为什么 当失配的时候，j = next[j]
+            j = next[j]
+        }
+    }
+}
