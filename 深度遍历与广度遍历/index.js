@@ -80,4 +80,5 @@ const wideTrasversal2 = function(node){
     }
     return res
 }
+
 console.log(wideTrasversal2(example));
