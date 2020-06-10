@@ -112,7 +112,7 @@ const preorderTraversal2 = function(treeNodeRoot){
 
 // 中序遍历
 // 思路与前序遍历类似
-const middleOrderTraverval2 = function(treeNodeRoot){
+var middleOrderTraverval2 = function(treeNodeRoot){
     const stacks = [];
     let currentNode = treeNodeRoot;
     while(stacks.length || currentNode ){
@@ -126,8 +126,22 @@ const middleOrderTraverval2 = function(treeNodeRoot){
         
     }
 }
+var middleOrderTraverval2 = function(treeNodeRoot){
+    const stacks = [];
+    let currentNode = treeNodeRoot;
+    while(stacks.length || currentNode){
+        while(currentNode){
+            stacks.push(currentNode);
+            currentNode = currentNode.left;
+        }
+        currentNode = stacks.pop();
+   
+        currentNode = currentNode.right;
+    }
+
+}
 // middleOrderTraverval2(node)
-const postOrderTraverval2 = function(treeNodeRoot){
+var postOrderTraverval2 = function(treeNodeRoot){
     let currentNode = treeNodeRoot;
     const stacks = [];
     // 额外定义一个上次访问的游标，因为后序需要判断当前的节点右节点是否被访问过了
@@ -160,4 +174,5 @@ const postOrderTraverval2 = function(treeNodeRoot){
         }
     }
 }
+
 postOrderTraverval2(node)
