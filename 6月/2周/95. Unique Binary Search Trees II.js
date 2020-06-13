@@ -75,6 +75,32 @@ var generateTrees = function(n) {
     }
     return generateTree(1,n)
 };
+// 递归复习
+var generateTrees = function(n) {
+    if(n == 0){
+        return []
+    }
+    const generateTree = (start,end)=>{
+        if(end< start){
+            return [null]
+        }
+        const trees = [];
+        for(let i  = start; i <= end; i++){
+            const leftTrees = generateTree(start,i-1);
+            const rightTrees = generateTree(i+1,end);
+            leftTrees.forEach(left=>{
+                rightTrees.forEach(right=>{
+                    trees.push({
+                        left,right,val:i
+                    })
+                })
+            })
+        }
+        return trees
+    };
+
+    return generateTree(1,n)
+}
 
 // 解法二：由于搜索二叉树的特质，每次插入最大值，只能在根节点，根节点的右子树，根节点的右子树的右子树
 
@@ -127,4 +153,53 @@ function TreeNode(val) {
      return tree == null ? tree : JSON.parse(JSON.stringify(tree));
  }
 
+ // 复习解法二
+ var generateTrees = function(n) {
+     let prev = [];
+     if(n < 1){
+         return prev
+     }
+     prev.push(new TreeNode(1));
+     // 对于每一颗二叉搜索树，插入一个最大值，意味着插入到根节点的上方，或者根节点的右节点，或者根节点的右节点的右节点...
+     for(let i = 2; i <= n; i++){
+         const cur = [];
+        
+         prev.forEach(prevTree=>{
+              // 插入到根节点
+            const newTreeRoot = new TreeNode(i);
+            newTreeRoot.left = prevTree;
+            cur.push(newTreeRoot);
+            // 为什么这么做？ 你怎么知道它的右节点长度是多少？ 我们只能设置一个最大值，合适时break
+            for(let j = 1; j <=n; j++ ){
+                const copyTree = TreeCopy(prevTree);
+                let right = copyTree; // 这里是移动的指针
+                // 查找到要插入的位置的父节点，由于每一次都要拷贝一棵树
+                // 所以这里要加上查找步骤
+                let k = 1;
+                while(k < j){
+                    // 位置要写对，考虑到copyTree可能就是null
+                    if(!right){
+                        break;
+                    }
+                    right = right.right;
+                    
+                }
+                // 查找已经到了要插入位置的父节点为null
+                if(!right){
+                    break;
+                }
+                // 替换节点 ：
+                // 0. 创建要替换的节点
+                // 1. 获取当前right节点的右节点right1； 2. 将right1挂载到新节点上 3. 将新节点挂载到当前right节点
+
+                const newNode = new TreeNode(i);
+                newNode.right = right.right;
+                right.right= newNode;
+                cur.push(copyTree);
+            }
+         })
+         prev = cur;
+     }
+     return prev
+ }
 
