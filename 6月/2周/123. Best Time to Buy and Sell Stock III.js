@@ -70,6 +70,8 @@ var maxProfit = function(prices) {
     let len = prices.length;
     // 拆分为一维股票问题的子问题
     let max = 0;
+
+    // 设置缓存
     let cacheLeft = 0,cacheRight = 0;
     const getMaxProfit = (start,end)=>{
         if(start > end){
@@ -87,7 +89,6 @@ var maxProfit = function(prices) {
         return profit;
     }
     for(let i = 0;i< len; i++){
-        // 优化
         let left,right;
         if(prices[i] < prices[i-1]){
             left = cacheLeft;
