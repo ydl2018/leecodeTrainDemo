@@ -44,11 +44,50 @@ babgbag
  */
 
  /**
+  * 
+  * 
  * @param {string} s
  * @param {string} t
  * @return {number}
  */
+
+
+ // 血的教训，
+ // 1. 如果初始化出问题，不符合逻辑，一定要去做好初始化的工作！！！
+ // 2. 不要习惯性地加1
 var numDistinct = function(s, t) {
     // 当位于第j位时，选择j位与i位匹配，还是不选
-    // dep[i][j] = dep[i-1][j-1] + dep[i][j-1]
+    // i >= 1 j >= 1
+        // s[i] == s[j]
+        //  dep[i][j] = dep[i-1][j-1]  + dep[i][j-1]
+        // s[i] != s[j]
+        //  dep[i][j] = dep[i][j-1]
+    
+    // i = 0 j = 0
+    // dep[i][j] = 0
+    // i < j -1
+    // dep[i][j] = 0
+    if(s.length < t.length){
+        return 0
+    }
+    const dep  = Array.from({length:t.length+1},()=>Array.from({length:s.length+1},()=>0))
+
+    for(let i = 0; i < dep[0].length; i++){
+        dep[0][i] = 1
+    }
+
+    for(let i = 1; i <= t.length; ++i){
+        for(let j = i; j <= s.length; ++j){
+         
+            if(t[i-1] == s[j-1]){
+                // 错误点1： 这里习惯性加1
+                dep[i][j] = dep[i-1][j-1] + dep[i][j-1]
+            }else{
+                dep[i][j] = dep[i][j-1]
+        }
+    }
+}
+    return dep[t.length][s.length]
 };
+console.log(numDistinct('babgbag','bag'));
+console.log(numDistinct("rabbbit", "rabbit"));
