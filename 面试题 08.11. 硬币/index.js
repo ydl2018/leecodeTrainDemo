@@ -55,15 +55,24 @@ var waysToChange = function (n) {
     return num % 1000000007
 }
 
-// 思路三：背包问题
+// 思路三：完全背包问题
 
-// unitArr 相当于每个包的体积，而总体积恒定，说明背包的体积恒定
-// 原始问题是求出最大价值
+// unitArr 相当于每个物品的体积，而总体积n恒定，说明背包的体积恒定
+// 原始问题是求出最大价值,现在的问题是求出最大值正好为n值时的取法
 // 我们是q
 var waysToChange = function (n) {
     const unitArr =[25,10,5,1];
+    // 设i为硬币此时的种类数,v是此时的总币值, c[i]为 某类硬币的币值,
+    //  w[i]在这个问题里恒为1,f[v]为v分时,存在的表示法
+    // 取到第i种硬币时,此时有两种选择,一种是第 i-1 种硬币总数为v时的表示法f[i-1][v]
+    // 第二种是选择i 种硬币时,再放置多一个第i种硬币总数为v的表示法 f[i][v-w[i]]+1
+    // f[i][v] = max{f[i-1][v],f[i][v-w[i]]+1}
 
+    // 优化策略
+    // 转化为f[v] = max{f[v],f[v-w[i]]+1}
 
+    // 1. 初始化
+    const dp = Array(7).fill(0)
 }
 var waysToChange = function (n) {
     const unitArr =[25,10,5,1];
