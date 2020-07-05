@@ -176,7 +176,7 @@ function TreeNode(val) {
                 // 查找到要插入的位置的父节点，由于每一次都要拷贝一棵树
                 // 所以这里要加上查找步骤
                 let k = 1;
-                while(k < j){
+                while(k++ < j){
                     // 位置要写对，考虑到copyTree可能就是null
                     if(!right){
                         break;
@@ -193,7 +193,7 @@ function TreeNode(val) {
                 // 1. 获取当前right节点的右节点right1； 2. 将right1挂载到新节点上 3. 将新节点挂载到当前right节点
 
                 const newNode = new TreeNode(i);
-                newNode.right = right.right;
+                newNode.left = right.right;
                 right.right= newNode;
                 cur.push(copyTree);
             }
@@ -202,4 +202,70 @@ function TreeNode(val) {
      }
      return prev
  }
+
+
+ var generateTrees = function(n) {
+        const generateTree = (start,end)=>{
+            if(start > end){
+                return [null]
+            }
+            const allTrees = [];
+            for(let i = start; i <= end; i++){
+                const leftTrees = generateTree(start,i-1);
+                const rightTrees = generateTree(i+1,end);
+                leftTrees.forEach(left=>{
+                    rightTrees.forEach(right=>{
+                        allTrees.push({left,right,val:i})
+                    })
+                })
+        }
+        return allTrees
+    }
+    return generateTree(0,n)
+}
+
+// 第二种思路 动态规划 思考突破点在于搜索二叉树的本质，插入一个值比所有节点值还要大的节点，只能在根节点的父节点或者右子树的右子树
+
+// 根节点的父节点能不能通过一个虚拟节点来表示呢？
+ // 暂时没思考出来
+var generateTrees = function(n) {
+    let prev = [];
+    if(n < 1){
+        return prev
+    }
+    prev[0]  = {left:null,right:null,val:1};
+    for(let i = 2; i <= n ; i++){
+        const cur = [];
+        prev.forEach(tree=>{
+              // 插入头部
+            const newRoot = {left:null,right:null,val:i};
+            newRoot.right = tree;
+            cur.push(newRoot);
+            // 找到要插入的点
+            for(let j = 1; j<i; j++){ // 这里解释为什么j<i，因为i是待插入的值，j代表着要插入的节点的父节点
+                const treeCopy = tree ? JSON.parse(JSON.stringify(tree)) : tree;
+                let cursorPoint = treeCopy;
+               
+                let k = 0;
+                while(k++ < j){
+                    if(cursorPoint == null){
+                        break;
+                    }
+                    cursorPoint = cursorPoint.right;
+                }
+                if(cursorPoint == null){
+                    break;
+                }
+                // 插入到查找到的节点的右节点
+                const prevRightTree = cursorPoint.right;
+                const newRoot = {left:null,right:null,val:i};
+                cursorPoint.right = newRoot;
+                newRoot.left = prevRightTree;
+                cur.push(treeCopy);
+            }
+        })
+        prev = cur;
+    }
+    return prev
+}
 

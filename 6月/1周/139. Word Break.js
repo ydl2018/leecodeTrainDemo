@@ -176,6 +176,47 @@ var wordBreak = function(s, wordDict) {
     }
     return false
 }
+// 广度优先遍历
+var workBreak = function (s,wordDict) {
+    const queue = [];
+    const visited = [];
+    let start;
+    queue.push(0);
+    while(queue.length){
+       start = queue.shift();
+       if(visited[start]){
+           continue
+       }
+        for(let i = start; i < s.length; ++i){
+            if(wordDict.includes(s.substring(start,i+1))){
+                if(i == s.length-1){  // achieve our goal
+                    return true;
+                }
+                queue.push(i+1)
+            }
+        }
+        visited[start] = true
+    }
+}
+// 动态规划
+var workBreak = function (s,wordDict) {
+    // abcdebeg =>  abcde + beg
+    // state transition euqation  dep[i] = dep[j] && s[j][i] in wordDict (i > 0 && 0 <= j < i)
+    const dep = Array.from({length:s.length},()=>false);
+    for(let i = 0; i < s.length; ++i){
+        for(let j = 0; j < i; j++){
+            if(wordDict.includes(s.substring(j,i+1))){
+                if(j == 0 || dep[j-1]){
+                    dep[i] = true;
+                    break;
+                }
+            }
+        }
+    }
+    return dep[s.length]
+}
+
+//
 
 console.log(wordBreak('catsandog',["cats", "dog", "sand", "and", "cat"]));
 console.log(wordBreak('applepenapple',["apple","pen"]));

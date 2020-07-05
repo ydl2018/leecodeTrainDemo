@@ -62,9 +62,13 @@ var isInterleave = function(s1, s2, s3) {
     
     dep[0] =  true;
     //
-    for(let n = 0; n <= s3.length; n++){
+    for(let n = 1; n <= s3.length; n++){
         for(let i = 0; i <= s1.length; i++){
-            dep[i]  = (dep[i-1] && s3[n-1] == s1[i-1]) || (dep[i] && s2[ n-i- 1] == s3[n-1])
+            if( i == 0){
+                dep[i] = dep[i] && s2[n-1] == s3[n-1]
+            }else{
+                dep[i]  = (dep[i-1] && s3[n-1] == s1[i-1]) || (dep[i] && s2[ n-i- 1] == s3[n-1])
+            }
         }
         console.log(dep);
     }

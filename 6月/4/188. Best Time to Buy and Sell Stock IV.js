@@ -161,7 +161,8 @@ var maxProfit = function(k, prices) {
     if(k > len/2){
         k = len/2;
     }
-    const dep = Array.from({length:k+1},(_,k)=>Array.from({length:2}))
+    const dep = Array.from({length:k+1},(_,k)=>Array.from({length:2}));
+
     for(let i = 0,len = prices.length; i < len; ++i){
         for(let _k = 0; _k <= k; ++_k ){
 

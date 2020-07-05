@@ -56,11 +56,10 @@ var KMPsearch = function (org,tar) {
 }
 
 
-// kMP 解法思路 son 都有一个前缀和后缀，当不匹配时，求出前缀组成的数组与后缀组成的数组中交集最长序列
+// kMP 解法思路 str 都有一个前缀和后缀，当不匹配时，求出前缀组成的数组与后缀组成的数组中交集最长序列
 // 将sub指针移动到以最长序列长度的索引
 
-// next数组是一种特殊的匹配模式，需要将son和son往后一位做比较
-
+// 
 const KMPsearchCopy = function(son,father){
     // 建表
     const next = [-1];

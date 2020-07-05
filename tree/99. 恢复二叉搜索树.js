@@ -43,7 +43,7 @@ var recoverTree = function (root) {
         if (pretendNode && pretendNode.val > currentNode.val) {
             // 此处都交换逻辑一定要理清楚
             // 存在两种可能性
-            // 1. x与y再中序遍历中是相邻的
+            // 1. x与y在中序遍历中是相邻的
             // 2. x与y在中序遍历中是不相邻的
             // 所以我们要让y记住每一次这种情况的出现
 
@@ -77,7 +77,7 @@ var recoverTree = function (root) {
 如果mostright的right指针指向空，让其指向cur，cur向左移动（cur=cur.left）
 如果mostright的right指针指向cur，让其指向空，cur向右移动（cur=cur.right）
 
- */
+ */  
 
 // 本质 画个向左横向的数字9的形式，所以对于没有左子树的节点，只访问一次；
 // 有左子树，由于数字9的特性，需要访问两次
@@ -131,4 +131,72 @@ var recoverTree = function (root) {
     x.val = y.val;
     y.val = temp;
 }
+
+// 中序遍历特性
+var recoverTree = function(root){
+    const stacks = [];
+    let currentNode = root,x,y,prependNode;
+    while(stacks.length || currentNode){
+        while(currentNode){
+            stacks.push(currentNode);
+            currentNode = currentNode.left;
+        }
+        currentNode = stacks.pop();
+        if(prependNode && prependNode.val > currentNode.val){
+            y = currentNode;
+            if(x){
+                break;  
+            }
+            x = prependNode;
+
+        }
+        prependNode = currentNode;
+        currentNode = currentNode.right;
+    }
+
+    x.val = x.val ^ y.val;
+    y.val = x.val ^ y.val;
+    x.val = x.val ^ y.val;
+}
+
+//morris
+var recoverTree = function(root){
+   // 1. 无左节点，直接往右节点走
+   // 2. 有左节点，找到左节点的最右节点（包括自身）mosRight 判断标准为不等于当前cur
+   //   mosRight.right 为空，那么指向cur，cur移动到左节点 
+   //   mosRight.right 不为空，指向置为null,cur移动到右节点
+
+   let x, y,pretendNode;
+    while(root){
+        if(root.left){
+            let mosRight = root.left;
+            while(mosRight.right && mosRight.right != root){
+                mosRight = mosRight.right
+            }
+
+            if(mosRight.right){
+                mosRight.right = null;
+            }else{
+               mosRight.right = root;
+               root = root.left; 
+               continue;
+            }
+        }
+        // only go right can visit
+        if(pretendNode && pretendNode.val > root.val){
+            y = root;
+            if(!x){
+                // 错误点: 不可以直接break;
+                x = pretendNode;
+            }
+            
+        }
+        pretendNode = root;
+        root = root.right;
+    }
+    x.val = x.val ^ y.val;
+    y.val = x.val ^ y.val;
+    x.val = x.val ^ y.val;
+}
+
 recoverTree(node)
