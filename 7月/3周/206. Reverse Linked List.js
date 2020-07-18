@@ -34,6 +34,7 @@ var reverseList = function (head) {
     return prev
 };
 
+// 思路： 到尽头，然后分别递归
 var reverseList = function (head) {
     if(head == null  || head.next == null){
         return head
