@@ -49,6 +49,28 @@ var addTwoNumbers = function(l1, l2) {
     }
     return result.next
 }
+const TreeNode = function (val) {
+    return {
+        next:null,
+        val
+    }
+}
+var addTwoNumbers = (l1,l2)=>{
+    let result = new TreeNode(0);
+    let carry = 0,sum = 0,cur = result,val;
+    while (l1 || l2 || carry){
+        let x = l1 ? l1.val : 0;
+        let y = l2 ? l2.val : 0;
+        sum = x + y + carry;
+        carry = sum > 9 ? 1 :0;
+        val = sum % 10;
+        cur.next = new TreeNode(val);
+        cur = cur.next;
+        l1 = l1 ? l1.next : null
+        l2 = l2 ? l2.next : null
+    }
+    return result.next
+}
 
 const revertLinkList = (link)=>{
     let cur = link,prev;

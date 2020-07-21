@@ -45,7 +45,7 @@ var inorderTraversal = function(root) {
     return result
 };
 
-//morris 
+//morris
 
 var inorderTraversal = function(root) {
     const result = []
@@ -56,10 +56,10 @@ var inorderTraversal = function(root) {
                 leftMax = leftMax.right
             }
             if(leftMax.right){
-               leftMax.right = null; 
+               leftMax.right = null;
             }else{
                 leftMax.right = root;
-             
+
                 root = root.left;
                 continue;
             }
@@ -69,3 +69,31 @@ var inorderTraversal = function(root) {
     }
     return result
 };
+
+var inorderTraversal = function(root) {
+    // 1. 如果当前root有左节点
+    //      1.1 找到左节点的最右节点node1
+    //          如果node1的右节点指向 root
+    //              root节点往右移动
+    //          如果为空
+    //              则让node1节点指向root，root节点往左移动
+    //      1.2 root节点往右移动
+    const result = [];
+    while (root){
+        if(root.left){
+            let maxRight = root.left;
+            while (maxRight.right && maxRight.right !== root){
+                maxRight = maxRight.right
+            }
+            if(maxRight.right){
+                maxRight.right = null;
+            }else{
+                maxRight.right = root;
+                root = root.left;
+                continue
+            }
+        }
+        result.push(root.val)
+        root = root.right
+    }
+}
