@@ -33,6 +33,16 @@ var reverseList = function (head) {
     }
     return prev
 };
+var reverseList = function (head) {
+    let cur = head, prev = null;
+    while (cur){
+        let temp = cur.next;
+        cur.next = prev;
+        prev = cur;
+        cur = temp;
+    }
+    return prev
+}
 
 // 思路： 到尽头，然后分别递归
 var reverseList = function (head) {
@@ -41,6 +51,18 @@ var reverseList = function (head) {
     }
     let cur = reverseList(head.next);
     head.next.next = head;
+    head.next = null;
+    return cur
+}
+
+var reserveList = (head) => {
+    if(head == null || head.next == null){
+        return head
+    }
+    let cur = reverseList(head.next);
+    // head.next.next 为反转之后链表的尾部，让这时的链表指向head
+    head.next.next = head;
+    // 清空head的指针
     head.next = null;
     return cur
 }

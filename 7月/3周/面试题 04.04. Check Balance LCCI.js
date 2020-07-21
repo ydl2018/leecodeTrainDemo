@@ -43,21 +43,37 @@ var isBalanced = function(root) {
     }
     return isBalanced(root.left) && isBalanced(root.right)
 };
-const getDeepLevel = (()=>{
-    const cacheMap = new Map();
-    return (root,level = 0)=>{
-        let _level = level;
-        if(root){
-            if(cacheMap.has(root)){
-                return cacheMap.get(root) + level
-            }
-            level++
-            level = Math.max(getDeepLevel(root.left,level),getDeepLevel(root.right,level))
-            cacheMap.set(root,level - _level)
+const cacheMap = new Map();
+const getDeepLevel = (root,level = 0)=>{
+    let _level = level;
+    if(root){
+        if(cacheMap.has(root)){
+            return cacheMap.get(root) + level
         }
-        return level
+        level++
+        level = Math.max(getDeepLevel(root.left,level),getDeepLevel(root.right,level))
+        cacheMap.set(root,level - _level)
     }
-})()
-
+    return level
+}
  const treeNode = {left:{val:0,left:{val:1,right:{val:2}}}}
+
+ var isBalanced = function(root) {
+    let result = true
+     if(!root) return result
+     var dfs = (root)=>{
+         if(root == null) return 0
+         let left = dfs(root.left);
+         let right = dfs(root.right)
+         if(Math.abs(left - right) > 1){
+             result =  false
+         }
+         return Math.max(left,right) + 1
+     }
+     dfs(root)
+    return result
+
+};
+
+
 console.log(getDeepLevel(treeNode));
