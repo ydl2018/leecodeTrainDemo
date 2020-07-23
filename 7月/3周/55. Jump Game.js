@@ -55,5 +55,15 @@ var canJump = function(nums){
     }
     return  curIndex === 0
 }
+// 复习 反向思路，如果当前索引可以到达curIndex，对于前边的索引来说，目的只是超越当前索引
+var canJump = (nums) =>{
+    let curIndex = nums.length - 1;
+    for(let i = nums.length - 2; i-- >= 0;){
+        if(nums[i] + i >= curIndex){
+            curIndex = i
+        }
+    }
+    return curIndex === 0
+}
 console.log(canJump([3, 2, 1, 0, 4]));
 console.log(canJump([0]));
