@@ -32,9 +32,43 @@ return true, as there exist a root-to-leaf path 5->4->11->2 which sum is 22.
  * @param {number} sum
  * @return {boolean}
  */
+// 递归
 var hasPathSum = function(root, sum) {
-    const map = {};
-    while(){
+    const caculate = (root,total)  => {
+        if(root == null){
+            return false
+        }
+        // only caculate leaf node 
+        if(root.left  == null && root.right == null){
+            return sum == total + root.val
+        }
+      return caculate(root.left,total + root.val) || caculate(root.right,total + root.val)
+    }
+    return  caculate(root,0)
+};
+
+// BFS
+var hasPathSum = function(root, sum) {
+    if(root == null){
+        return false
+    }
+    const queue = [];
+    queue.push({currentNode:root,total:root.val});
+    
+    while(queue.length){
+       let {currentNode,total} = queue.shift();
+        if(currentNode.left == null && currentNode.right == null){
+            if(total == sum){
+                return true;
+            }
+        }
+        if(currentNode.left){
+            queue.push({currentNode:currentNode.left,total:total + currentNode.left.val})
+        }
+        if(currentNode.right){
+            queue.push({currentNode:currentNode.right,total:total + currentNode.right.val})
+        }
 
     }
-};
+    return false
+}
