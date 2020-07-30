@@ -1,5 +1,5 @@
 /**
- * 
+ *
 Given n, how many structurally unique BST's (binary search trees) that store values 1 ... n?
 
 Example:
@@ -46,20 +46,21 @@ var numTrees = function(n) {
     }
     return dep[n]
 };
+
 // 复习
 var numTrees = function(n) {
     const dep = [];
     // 1 <= i <= n
-    // 设置 f[i] 为根节点为i时，组成子树的总数目； 
+    // 设置 f[i] 为根节点为i时，组成子树的总数目；
     // 设置dep[n]是代表着给数量i的情况下，所拥有的子树数目
 
     // f[i] = dep[i-1] * dep[n - i] // 这里有一个技巧，就是右边的子树是大于i的，为什么可以用
     // dep[n-i]来表示呢？ 因为对于 n-i 到 n 组成的二叉搜索树，他们对应的数量（注意是数量）与dep[n-i]是一致的
-     
+
     // 注意这里
     // dep[n] = f[1] + f[2] + f[3] + ... + f[n-1];
     // dep[n] = dep[0]* dep[n-1] + dep[1]* dep[n-2] + ... dep[n-1]* dep[0]
-    
+
     // 如果给定的n为0
     dep[0] = 1;
     dep[1] = 1; // 为什么要排除 n == 1的情况？ 因为如果按照以上的公式，两个子树交换时，组成新的树，而这里是不符合题解的

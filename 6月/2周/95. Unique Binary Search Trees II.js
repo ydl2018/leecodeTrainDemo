@@ -1,5 +1,5 @@
 /**
- * 
+ *
 Given an integer n, generate all structurally unique BST's (binary search trees) that store values 1 ... n.
 
 Example:
@@ -21,7 +21,7 @@ The above output corresponds to the 5 unique BST's shown below:
      3     2     1      1   3      2
     /     /       \                 \
    2     1         2                 3
- 
+
 
 Constraints:
 
@@ -33,12 +33,68 @@ Constraints:
 
  /**
  * Definition for a binary tree node.
- * 
+ *
  */
 /**
  * @param {number} n
  * @return {TreeNode[]}
  */
+// 思路: 每次插入考虑到插入到上方与最右节点，
+// 结果错误
+var generateTrees = function(n) {
+    let stacks = [];
+    const cursive = (limit)=>{
+        const result = []
+        for(let i = 0; i < stacks.length; ++i){
+            let dumpHead;
+            let item = dumpHead =  JSON.parse(JSON.stringify(stacks[i]));
+            while (item.right){
+                item = item.right
+            }
+            item.right = {val:limit,left:null,right:null}
+            result.push(dumpHead)
+
+            // 加在上头
+            let newNode = {val:limit,left:stacks[i],right : null}
+            result.push(newNode)
+        }
+        stacks = result;
+    }
+    for(let i  = 1; i<= n; ++i){
+        cursive(i)
+    }
+    return stacks
+};
+var generateTrees = function(n) {
+    const generateTree = (start,end) =>{
+        const result = []
+        if(start > end){
+            result.push(null)
+            return result
+        }
+        for(let i = start;i <=end; ++i){
+            const leftTree = generateTree(start,i-1);
+            const rightTree = generateTree(i+1,end)
+
+            leftTree.forEach(left=>{
+                rightTree.forEach(right=>{
+                    const newNode = {
+                        left:JSON.parse(JSON.stringify(left)),
+                        right:JSON.parse(JSON.stringify(right)),
+                        val:i
+                    }
+                    result.push(newNode)
+                })
+            })
+        }
+        return result
+    }
+    if( n === 0){
+        return []
+    }
+    return generateTree(1,n)
+}
+
 var generateTrees = function(n) {
     const resList = [];
     const hashStack = [];
@@ -163,7 +219,7 @@ function TreeNode(val) {
      // 对于每一颗二叉搜索树，插入一个最大值，意味着插入到根节点的上方，或者根节点的右节点，或者根节点的右节点的右节点...
      for(let i = 2; i <= n; i++){
          const cur = [];
-        
+
          prev.forEach(prevTree=>{
               // 插入到根节点
             const newTreeRoot = new TreeNode(i);
@@ -182,7 +238,7 @@ function TreeNode(val) {
                         break;
                     }
                     right = right.right;
-                    
+
                 }
                 // 查找已经到了要插入位置的父节点为null
                 if(!right){
@@ -245,7 +301,7 @@ var generateTrees = function(n) {
             for(let j = 1; j<i; j++){ // 这里解释为什么j<i，因为i是待插入的值，j代表着要插入的节点的父节点
                 const treeCopy = tree ? JSON.parse(JSON.stringify(tree)) : tree;
                 let cursorPoint = treeCopy;
-               
+
                 let k = 0;
                 while(k++ < j){
                     if(cursorPoint == null){
