@@ -33,6 +33,27 @@ var permute = function (nums) {
     backtrack();
     return res
 };
+
+var permute = function (nums) {
+    const stacks  = []
+    const result = []
+    let len = nums.length
+    const backTracking = (start)=>{
+        if(stacks.length === len){
+            result.push(stacks.concat())
+        }
+        for(let i  = start; i < nums.length; ++i){
+            stacks.push(nums[i]);
+            [nums[i] , nums[start]] = [nums[start],nums[i]]
+            backTracking(start+1);
+            [nums[i] , nums[start]] = [nums[start],nums[i]]
+            stacks.pop()
+        }
+    }
+    backTracking(0)
+    return result
+}
+
 // 官方思路：
 // 优点：
 // 1. 没使用栈去缓存数据

@@ -6,7 +6,7 @@ trie.insert("apple");
 trie.search("apple");   // 返回 true
 trie.search("app");     // 返回 false
 trie.startsWith("app"); // 返回 true
-trie.insert("app");   
+trie.insert("app");
 trie.search("app");     // 返回 true
  */
 // Trie 字典树的三个特质：
@@ -27,7 +27,43 @@ trie.search("app");     // 返回 true
 // 对所有串建立字典树，对于两个串的最长公共前缀的长度即他们所在的节点的公共祖先个数，于是，问题就转化为最近公共祖先问题。
 
 // Trie 的数据结构
-// 
-var Trie = function() {
-    
-};
+//
+/**
+ * Initialize your data structure here.
+ */
+
+class Trie {
+    constructor() {
+        this.root = Object.create(null)
+    }
+    insert(word){
+        let node = this.root
+        for(let char of word){
+            if(!node[char]) node[char] = Object.create(null)
+            node = node[char]
+        }
+        node.isWord = true
+    }
+    traverse(word){
+        let node = this.root
+        for(let char of word){
+            node = node[char]
+            if(!node) return null
+        }
+        return node
+    }
+    search(word){
+        const node = this.traverse(word)
+        return !!node && !!node.isWord
+    }
+    startsWith(word){
+        return !!this.traverse(word)
+    }
+}
+/**
+ * Your Trie object will be instantiated and called as such:
+ * var obj = new Trie()
+ * obj.insert(word)
+ * var param_2 = obj.search(word)
+ * var param_3 = obj.startsWith(prefix)
+ */
