@@ -46,12 +46,42 @@
 
 
  **/
+
+// 思考：贪心算法的贪心，如何在这道题目里体现呢
+
+
+
+    // 参考思路1：动态规划处理匹配字符串问题
 var isMatch = function(s, p) {
   let pLen = p.length;
-  for(let i  = 0; i < pLen; ++i){
-
+  let sLen = s.length;
+  let dep = Array.from({length: sLen + 1}, () => Array.from({length: pLen + 1},()=>false));
+  dep[0][0] =  true;
+  for(let i = 1; i <= pLen; ++i){
+      if(p[i-1] === "*"){
+          dep[0][i] = true
+      }else{
+          break
+      }
   }
+
+  for(let i  = 1; i <= sLen; ++i){
+    for(let j = 1; j <= pLen; ++j){
+        // keyPoint 如果当前位置的字符都是字母并且相等，或者其中一个为"?"，则与前面的有关
+        if(p[j-1] === "?" || s[i-1] === p[j-1]){
+            dep[i][j] = dep[i-1][j-1]
+        }else if( p[j-1] === "*" ){  // 关键在于用不用 “*”，分两种情况，此处要好好理解
+            dep[i][j] = dep[i-1][j] || dep[i][j-1]
+        }
+    }
+  }
+        return dep[sLen][pLen]
 };
+
+
+// 参考思路2： 贪心算法，对于 u1 * u2 * u3  此思路需要对贪心算法较为熟悉
+
+
 
 // unit test
 isMatch('aa','a')  // false
