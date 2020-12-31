@@ -35,6 +35,9 @@ var canJump = function(nums) {
     let max = 0;
     for(let i = 0,len = nums.length; i < len;++i){
         if(i <= max){
+            // 2020.12.31
+            // why we should have this condition?
+            // because we should consider if [1,0,10],when it is 0, we cannot jump
             max = Math.max(i + nums[i],max)
             if(max >= len-1){
                 return true
@@ -65,5 +68,30 @@ var canJump = (nums) =>{
     }
     return curIndex === 0
 }
-console.log(canJump([3, 2, 1, 0, 4]));
-console.log(canJump([0]));
+
+// 复习
+var canJump = (nums) =>{
+    let len = nums.length;
+    if(len === 0 || len === 1) return true
+    for(let i  = 0; i < len -1;){
+        if((nums[i] + i) >= len - 1) return true
+        let maxDistance = nums[i];
+        let nexStepIndex = i
+        for(let j = 1;j <= nums[i]; j++){
+            if(maxDistance<nums[j+i]+j+i){
+                maxDistance = nums[j+i]+j+i
+                nexStepIndex = i + j
+            }
+        }
+        if(maxDistance === nums[i]) return false
+        if(maxDistance >= len-1) return true
+        i = nexStepIndex
+    }
+}
+
+// 复习
+
+console.log(canJump([3, 2, 1, 0, 4])); //  false
+console.log(canJump([2, 3, 1, 1, 4])); //  true
+console.log(canJump([0])); // true
+
