@@ -57,7 +57,23 @@ var rotate = function(matrix) {
     }
 };
 
+var rotate = (matrix)=>{
+    let n = matrix.length;
 
+    for(let i  = 0; i < n / 2; i++){
+        for(let j = 0; j < n;++j){
+            [matrix[i][j],matrix[n-1 - i][j]] = [matrix[n-1 - i][j],matrix[i][j]]
+        }
+    }
+
+    for(let i = 0; i < n; ++i){
+        for(let j = 0;j <i;j++){
+            [matrix[i][j],matrix[j][i]] = [matrix[j][i],matrix[i][j]]
+        }
+    }
+
+    return matrix
+}
 // unit test
 
 rotate( [
@@ -72,12 +88,12 @@ rotate( [
 // ]
 
 
-rotate(  [
-    [ 5, 1, 9,11],
-    [ 2, 4, 8,10],
+console.log(rotate([
+    [5, 1, 9, 11],
+    [2, 4, 8, 10],
     [13, 3, 6, 7],
-    [15,14,12,16]
-]);
+    [15, 14, 12, 16]
+]));
 // [
 //     [15,13, 2, 5],
 //     [14, 3, 4, 1],
@@ -142,4 +158,36 @@ rotate(  [
 //     [14, 3, 4, 1],
 //     [12, 6, 8, 9],
 //     [16, 7,10,11]
+// ]
+
+// 逆时针旋转90度
+var rotate2 =  (matrix)=>{
+    let n = matrix.length;
+    // 1. matrix[i][j] = matrix[n - 1 - j][i]
+   //  2. 垂直变换 matrix[i][j] = matrix[i][n - 1 - j]
+    // 3. 主对角线变换 matrix[i][j] = matrix[j][i]
+    for(let i = 0; i < n; ++i){
+        for(let j = 0; j < n /2 ; ++j){
+            [matrix[i][j],matrix[i][n-1-j]] = [matrix[i][n-1-j],matrix[i][j]]
+        }
+    }
+    for(let i = 0;i <n; ++i){
+        for(let j = 0; j < i; ++j){
+            [matrix[i][j],matrix[j][i]] =  [matrix[j][i],matrix[i][j]]
+        }
+    }
+    return matrix
+
+}
+
+// unit test
+console.log(rotate2([
+    [1, 2, 3],
+    [4, 5, 6],
+    [7, 8, 9]
+]))
+// [
+// [3,6,9]
+// [2,5,8],
+// [1,4,7]
 // ]
