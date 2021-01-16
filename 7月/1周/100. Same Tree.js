@@ -76,8 +76,7 @@ var preorderTrasveral = (tree)=>{
 
         currentNode = stacks.pop().right;
     }
-    console.log(str);
-    
+
     return str;
 }
 
@@ -97,7 +96,7 @@ var middleTrasversal = (tree)=>{
         currentNode = currentNode.right;
     }
     console.log(str);
-    
+
     return str;
 }
 
@@ -129,7 +128,7 @@ var afterTrasversal = (tree) => {
 }
 
 
-  
+
 // 思路1： 前序 中序 遍历出来的结果，进行对比
 // 思路错误，如果节点值都相同怎么办？
 
@@ -188,7 +187,7 @@ var isSameTree = function(p, q) {
 
     while(dp.length){
         [p,q] = dp.shift();
-        
+
         if(check(p,q)){
             if(p){
                 dp.push([p.left,q.left],[p.right,q.right])
