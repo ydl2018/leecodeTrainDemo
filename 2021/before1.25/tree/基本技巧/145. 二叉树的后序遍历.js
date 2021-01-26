@@ -78,6 +78,7 @@ var postorderTraversal = function(root) {
                 currentNode = currentNode.left
             }
         }else{
+            // 1.25 复习，这里以为要进行addPaths,错误原因：没有以意识到addPaths是处理左子节点的事务
             currentNode = currentNode.right
         }
     }

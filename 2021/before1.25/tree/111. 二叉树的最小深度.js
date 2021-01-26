@@ -7,16 +7,18 @@
  说明：叶子节点是指没有子节点的节点。
  * **/
 var minDepth = function(root) {
-    const deepArr = [];
+    if(!root) return 0
+    let minDeep = Infinity;
     const getDeep = (node,originHeight = 0)=>{
         if(!node) return
         if(!node.left  && !node.right){
-            deepArr.push(originHeight + 1);
+           minDeep = Math.min(minDeep,originHeight+1)
         }
-        getDeep(node.left,originHeight+1)
-        getDeep(node.right,originHeight+1)
+        if(originHeight+1 < minDeep){
+            getDeep(node.left,originHeight+1)
+            getDeep(node.right,originHeight+1)
+        }
     }
     getDeep(root)
-    if(!deepArr.length) return 0
-    return Math.min(...deepArr)
+    return minDeep
 };

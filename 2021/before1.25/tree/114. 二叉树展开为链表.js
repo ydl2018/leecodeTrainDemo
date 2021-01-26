@@ -93,38 +93,18 @@ const node = {val:1,left:{val:'2',left:{val:'3',left:null,right:null},right:null
 
 // 1.实践成功
 
-// 完善题目
+// 复习：
+// 1.难点：观察题目特性，确认结果前序遍历的过程
 var flatten = function(root) {
     if(root == null) return
-    const stacks = [root]
-    let prev = null
-    while (stacks.length){
-        let curr = stacks.pop()
-        if(prev){
-            prev.right=  curr;
-            prev.left = null
-        }
-        if (curr.right) {
-            stacks.push(curr.right)
-        }
-        if (curr.left) {
-            stacks.push(curr.left)
-        }
-        prev = curr
-    }
-}
-
-// 寻找前驱节点，结合morris算法来理解
-
-var flatten = function (root) {
     let curr = root;
-    while(curr !== null){
+    while (curr){
         if(curr.left){
-            let predecessor = curr.left
-            while (predecessor.right){
-                predecessor = predecessor.right
+            let precursor = curr.left;
+            while (precursor.right){
+                precursor = precursor.right
             }
-            predecessor.right = curr.right
+           precursor.right =  curr.right
             curr.right = curr.left
             curr.left = null
         }
@@ -132,3 +112,4 @@ var flatten = function (root) {
     }
     return root
 }
+

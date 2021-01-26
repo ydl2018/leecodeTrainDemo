@@ -107,7 +107,12 @@ var sortedArrayToBST = function(nums) {
           return null
         }
         let node = {left:null, right:null}
+        // by 2021.01.25 复习难点：
+        // 1.如果该数组为[0,1],那么为什么我们只取左节点为根节点呢？
+        // 答：取左节点并不是必要条件，也可以取右节点
+        // 例如         let mid = Math.floor((i+j)/2)
         let mid = Math.floor((i+j)/2)
+
         node.val = nums[mid]
         node.left = generate(i,mid-1)
         node.right = generate(mid+1,j)
@@ -115,5 +120,18 @@ var sortedArrayToBST = function(nums) {
     }
     return generate(0,nums.length-1)
 };
+var sortArrayToBST = function (nums){
+    const dfs = (start,end)=>{
+        if(start > end){
+            return null
+        }
+        const node = {val:null,left:null,right:null}
+        const mid = Math.floor((start+end)/2)
+        node.val = nums[mid]
+        node.left = dfs(start,mid-1)
+        node.right = dfs(mid+1,end)
+        return node
+    }
+}
 console.log(sortedArrayToBST([1, 2, 3]))
 console.log(sortedArrayToBST(arg))

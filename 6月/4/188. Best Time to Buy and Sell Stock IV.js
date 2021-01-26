@@ -4,7 +4,7 @@
 Design an algorithm to find the maximum profit. You may complete at most k transactions.
 
 Note:
-You may not engage in multiple transactions at the same time (ie, you must sell the stock before you buy again).
+You may not engage in multiple transactions at the same time (ie, you must sell the stock before1.25 you buy again).
 
 Example 1:
 
@@ -48,8 +48,8 @@ var maxProfit = function(k, prices) {
             buyIndex++;
         }
        console.log(buyIndex,maxProfit,buy,sell);
-        
-        
+
+
         // settlement
         if(buy !== Infinity && sell !== -Infinity){
             maxProfit += sell - buy;
@@ -60,7 +60,7 @@ var maxProfit = function(k, prices) {
             return maxProfit;
         }
     }
-    
+
     // 处理一次交易的股票问题
 
     let firstPorfit = 0, firstMin = prices[buyIndex];
@@ -72,7 +72,7 @@ var maxProfit = function(k, prices) {
         }
     }
     console.log(firstPorfit);
-    
+
     return firstPorfit + maxProfit
 
 };
@@ -80,7 +80,7 @@ var maxProfit = function(k, prices) {
 
 
 // 思路 二： 动态规划
-// 
+//
 // 设 0 < i <= n , n为天数
 // 设 k 为允许买卖的最大次数
 // 设 s 为 持有或者不持有  0 <= s < =1 , 0 为不持有 ，1 为持有
@@ -116,12 +116,12 @@ var maxProfit = function(k, prices) {
 
 // dep[i][k][1] = max {dep[i-1][k][1],dep[i-1][k-1][0] - prices[i]}
 
-// 3. 最终的结果怎么取？ 
+// 3. 最终的结果怎么取？
 // 最后一天，由递推公式可知，dep[n][k][1] 是小于 dep[n][k][0]的，所以取dep[n][k][0]
 
 // 4. 边界条件需要考虑哪种情况？
 
-// i == 0 => dep[i][k][0] = 0,dep[i][k][1] = -prices[i] 
+// i == 0 => dep[i][k][0] = 0,dep[i][k][1] = -prices[i]
 // k == 0 => dep[i][k][0] = 0, dep[i][k][1] = -Infinity
 
 var maxProfit = function(k, prices) {
@@ -129,7 +129,7 @@ var maxProfit = function(k, prices) {
         return 0
     }
     const dep = Array.from({length:prices.length+1},(_,i)=>Array.from({length:k+1},(_,k)=>Array.from({length:2},(_,l)=>{
-       
+
         if(( i == 0 && l == 0) || (k == 0 && l == 0)){
             return 0
         }
@@ -149,12 +149,12 @@ var maxProfit = function(k, prices) {
         }
     }
     console.log(dep);
-    
+
     return dep[prices.length][k][0]
 }
 var maxProfit = function(k, prices) {
     const len = prices.length;
-   
+
     if(k < 1 || len == 0){
         return 0
     }
@@ -174,13 +174,13 @@ var maxProfit = function(k, prices) {
                 dep[_k][0] = 0;
                 dep[_k][1] = -Infinity;
                 continue;
-              
+
             }
             const temp0    = Math.max(dep[_k][0],dep[_k][1] +prices[i])
             const temp1 = Math.max(dep[_k][1],dep[_k-1][0] - prices[i])
             dep[_k][0] = temp0;
             dep[_k][1] = temp1;
-          
+
     }
 }
     return dep[k][0]

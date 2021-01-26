@@ -54,7 +54,6 @@ var majorityElement = function(nums) {
         for(let i = start; i <= end; ++i){
             if(nums[i] === num) count++
         }
-
         return count
     }
     return  divideAndConquer(0,nums.length-1)

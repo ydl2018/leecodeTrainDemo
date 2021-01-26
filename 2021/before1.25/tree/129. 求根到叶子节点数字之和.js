@@ -60,6 +60,7 @@ var sumNumbers = function(root) {
        if(node == null) return 0
         let sum = prevVal * 10 + node.val
         if(root.left == null && root.right  == null){
+            // 复习易错点：记住是叶子节点就直接返回
             return sum
         }else{
             return dfs(node.left,sum) + dfs(node.right,sum)
@@ -67,5 +68,6 @@ var sumNumbers = function(root) {
     }
     return dfs(root)
 };
+
 
 console.log(sumNumbers({val: 1, left: {val: 2}, right: {val: 3}}))

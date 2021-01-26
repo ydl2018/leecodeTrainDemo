@@ -18,7 +18,7 @@
 // 知识点
 // 1. 任何数和 00 做异或运算，结果仍然是原来的数，
 // 2. 任何数和其自身做异或运算，结果是 00，
-// 3.异或运算满足交换律和结合律
+// 3. 异或运算满足交换律和结合律
 
 var singleNumber = function(nums) {
     return nums.reduce((prev,cur)=> prev ^ cur)

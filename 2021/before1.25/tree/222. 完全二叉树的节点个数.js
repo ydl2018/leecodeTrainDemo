@@ -14,6 +14,7 @@
  输入：root = [1]
  输出：1
 * */
+
 // keyPoint:
     // 1. 完全二叉树中，二进制的位和tree的节点位置是对应的
     // 2. 度为0计算树时，叶子节点的第一个是 2^n ,最后一个节点是 2^(n+1) - 1
@@ -66,3 +67,49 @@ var countNodes = function(root) {
        return !! pt
     }
 };
+var countNodes = function(root) {
+    if(!root) return 0
+    let result = 0;
+    let cur = root,level = 0;
+    // get level
+    while (cur.left){
+        ++level
+        cur = cur.left
+    }
+
+    // get leaf node range
+    let start = 1 << level
+    let end = (1 << level+1) - 1
+
+
+    while (start < end){
+        let mid = Math.floor((start + end + 1) / 2);
+        if(exits(root,level,mid)){
+            start = mid
+        }else{
+            end = mid - 1
+        }
+    }
+    return start
+    function exits(root,level,mid){
+        let bits = 1 << (level-1);
+        let cur = root;
+        // 复习难点：在这里的思考：如何判断当前子树里到底有没有该节点，靠的是bits为0时（也就是访问
+        // 到最后一层的节点时，是否还存在？）
+        while (cur && bits){
+            // 犯错点：
+            // 1.到底是1是左边，还是0是左边？
+            // 0
+            // 为什么？
+            // 现在的答案：因为root节点count为1，而最后一层的第一个节点n的count表达式为 1,0..00
+            // => 根节点每一次都选择了0也就是左边进行右移
+
+            // 2. 能不能写成(mid & bits) === 1 ？
+            // 答：不能，因为 结果可能是 00100 !== 0
+            const direction = (mid & bits) === 0? 'left':'right'
+            root = root[direction]
+            bits >>= 1
+        }
+        return !!root
+    }
+}

@@ -79,9 +79,7 @@ var maxPathSum = function(root) {
         // (1) 该节点不作为链表和链尾
         result =  Math.max(leftResult + rightResult+node.val,result)
         // (2) 该节点作为链表的尾部
-        let curNodeResult = Math.max(leftResult,rightResult)+node.val
-        result = Math.max(curNodeResult,result)
-        return curNodeResult
+        return Math.max(leftResult,rightResult)+node.val
     }
     dfs(root)
     return result

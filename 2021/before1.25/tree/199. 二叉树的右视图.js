@@ -85,7 +85,7 @@ var leftSideView = function(root) {
 // 复习时，
 // 1.忘记了初始化level
 // 2.忘记了怎么比较level，因为每次pop时，
-// 那么原来的level不就是不存在了吗?
+// 那么原来的level不就是不存在了吗? => 使用levels数组来处理
 // result
 var rightSideView = function(root) {
     if(!root) return []
