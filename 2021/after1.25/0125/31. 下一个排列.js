@@ -64,6 +64,29 @@ var nextPermutation = function(nums) {
   }
 };
 
+
+// 复习
+// 1.注意需要在脑海中有印象
+var nextPermutation = function(nums) {
+    let len = nums.length ;
+    let i = len - 2;
+    while (i >= 0 && nums[i] >= nums[i+1] ){
+        --i
+    }
+    if(i >= 0){
+        let j = len - 1;
+        while (j > i && nums[j] >= nums[i]){
+            --j
+        }
+        [nums[i],nums[j]] = [nums[j],nums[i]]
+    }
+    let start = i+1,end = len -1;
+    while (end > start){
+        [nums[end],nums[start]] = [nums[start],nums[end]]
+        end--
+        start++
+    }
+}
 let arr = [1,5,1]
 nextPermutation(arr)
 console.log(arr) // expected [2]
